@@ -1,0 +1,54 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation='http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd'>
+
+    <!-- Alias = nom complet de la classe (région d'entité) ou classe + "." + attribut (région de collection).
+         Le schéma EhCache 3 impose l'ordre : <expiry> avant <heap>. -->
+
+    <!-- Bâtiments et équipements ne changent presque jamais : on les garde longtemps -->
+    <cache alias="com.example.model.Batiment">
+        <expiry><ttl unit="hours">12</ttl></expiry>
+        <heap unit="entries">100</heap>
+    </cache>
+
+    <cache alias="com.example.model.Batiment.sallesDuBatiment">
+        <expiry><ttl unit="hours">12</ttl></expiry>
+        <heap unit="entries">100</heap>
+    </cache>
+
+    <cache alias="com.example.model.Equipement">
+        <expiry><ttl unit="hours">24</ttl></expiry>
+        <heap unit="entries">100</heap>
+    </cache>
+
+    <!-- Salles et utilisateurs sont lus à chaque réservation mais peuvent être modifiés : durée plus courte -->
+    <cache alias="com.example.model.Salle">
+        <expiry><ttl unit="minutes">30</ttl></expiry>
+        <heap unit="entries">500</heap>
+    </cache>
+
+    <cache alias="com.example.model.Salle.equipements">
+        <expiry><ttl unit="minutes">30</ttl></expiry>
+        <heap unit="entries">500</heap>
+    </cache>
+
+    <cache alias="com.example.model.Utilisateur">
+        <expiry><ttl unit="minutes">30</ttl></expiry>
+        <heap unit="entries">1000</heap>
+    </cache>
+
+    <!-- Les réservations ne sont volontairement pas en cache (voir Reservation.java) -->
+
+    <!-- Résultats des requêtes marquées cacheables, et horodatage des tables pour savoir quand ils sont périmés.
+         Les horodatages ne doivent jamais expirer, sinon un résultat périmé pourrait être resservi. -->
+    <cache alias="default-query-results-region">
+        <expiry><ttl unit="minutes">10</ttl></expiry>
+        <heap unit="entries">1000</heap>
+    </cache>
+
+    <cache alias="default-update-timestamps-region">
+        <expiry><none/></expiry>
+        <heap unit="entries">1000</heap>
+    </cache>
+
+</config>

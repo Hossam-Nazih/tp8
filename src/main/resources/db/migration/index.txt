@@ -1,0 +1,5 @@
+# Scripts appliqués par MigrationExecutor, dans cet ordre. Un script déjà appliqué n'est jamais rejoué :
+# pour faire évoluer le schéma, on ajoute un nouveau script à la fin, on ne modifie jamais un ancien.
+v1_0_creation_schema.sql
+v2_0_add_description.sql
+v3_0_equipements_reference.sql
